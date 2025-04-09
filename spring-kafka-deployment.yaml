@@ -14,13 +14,15 @@ spec:
     spec:
       containers:
         - name: spring-kafka-app
-          image: tokyj515/my-spring-kafka:latest # 이미지 이름
+          image: tokyj515/my-spring-kafka:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
           env:
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
-              value: my-kafka:9092  # Kafka 내부 주소 사용
+              value: my-kafka:9092
+            - name: SPRING_REDIS_CLUSTER_NODES
+              value: my-redis-redis-cluster:6379
 ---
 apiVersion: v1
 kind: Service

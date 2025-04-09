@@ -9,3 +9,11 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+---
+spring:
+  data:
+    redis:
+      cluster:
+        nodes:
+          - my-redis-redis-cluster:6379
