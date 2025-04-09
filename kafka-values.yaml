@@ -1,0 +1,46 @@
+replicaCount: 1
+
+controller:
+  enabled: false
+kraft:
+  enabled: false
+auth:
+  enabled: false
+
+zookeeper:
+  enabled: true
+  replicaCount: 1
+  auth:
+    enabled: false
+
+externalZookeeper:
+  enabled: false
+
+service:
+  type: ClusterIP
+  ports:
+    client: 9092
+
+externalAccess:
+  enabled: true
+  service:
+    type: NodePort
+    nodePorts:
+      - 32000
+    externalIPs:
+      - 192.168.5.15
+  autoDiscovery:
+    enabled: false
+  broker:
+    advertisedListeners:
+      - PLAINTEXT://192.168.5.15:32000
+
+configurationOverrides:
+  listener.security.protocol.map: INTERNAL:PLAINTEXT,CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+  listeners: INTERNAL://:9093,CLIENT://:9092,EXTERNAL://:9094
+  advertised.listeners: |
+    INTERNAL://my-kafka-0.my-kafka-headless.default.svc.cluster.local:9093,
+    CLIENT://my-kafka-0.my-kafka-headless.default.svc.cluster.local:9092,
+    EXTERNAL://192.168.5.15:32000
+  inter.broker.listener.name: INTERNAL
+  listener.name.external.plaintext.host: 0.0.0.0
